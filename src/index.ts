@@ -1,2 +1,2 @@
 export { default as Anchorme } from './Anchorme'
-export { LinkComponent, LinkComponentProps } from './Link'
+export { LinkComponent, LinkComponentProps } from './types'

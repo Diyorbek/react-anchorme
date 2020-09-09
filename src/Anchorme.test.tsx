@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 import Anchorme from './Anchorme'
-import { LinkComponentProps } from './Link'
+import { LinkComponentProps } from './types'
 
 describe('Anchorme', () => {
 	const URL = 'http://www.example.loc'
@@ -65,7 +65,7 @@ describe('Anchorme', () => {
 	})
 
 	it('should render with custom link component', () => {
-		function CustomLink(props: LinkComponentProps) {
+		const CustomLink = (props: LinkComponentProps) => {
 			return (
 				<i>
 					<a {...props} />
@@ -75,7 +75,7 @@ describe('Anchorme', () => {
 
 		const { container, getByText } = render(
 			<Anchorme
-				LinkComponent={CustomLink}
+				linkComponent={CustomLink}
 				target="_blank"
 				rel="noreferrer noopener"
 			>
@@ -92,9 +92,9 @@ describe('Anchorme', () => {
 	})
 
 	it('should render with custom component', () => {
-		const customCallback = jest.fn()
+		const customCallback = jest.fn<void, [string]>()
 
-		function CustomLink({ href, children }: LinkComponentProps) {
+		const CustomLink = ({ href, children }: LinkComponentProps) => {
 			return (
 				<strong>
 					<span onClick={() => customCallback(href)}>{children}</span>
@@ -103,7 +103,7 @@ describe('Anchorme', () => {
 		}
 
 		const { container, getByText } = render(
-			<Anchorme LinkComponent={CustomLink}>{URL}</Anchorme>,
+			<Anchorme linkComponent={CustomLink}>{URL}</Anchorme>,
 		)
 
 		const linkEl = container.querySelector('span')
@@ -116,11 +116,11 @@ describe('Anchorme', () => {
 	})
 
 	it('should render with custom inline component', () => {
-		const customCallback = jest.fn()
+		const customCallback = jest.fn<void, [string]>()
 
 		const { container, getByText } = render(
 			<Anchorme
-				LinkComponent={({ href, children }) => (
+				linkComponent={({ href, children }) => (
 					<a
 						href={href}
 						onClick={(event) => {

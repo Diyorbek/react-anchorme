@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
 import anchorme from 'anchorme'
 
-import { AnchorProps } from './types'
-import { Link, LinkComponent } from './Link'
+import { AnchorProps, LinkComponent } from './types'
+import { Link } from './Link'
 
 type Props = {
 	children: string
-	LinkComponent?: LinkComponent
+	linkComponent?: LinkComponent
 } & AnchorProps
 
 const Anchorme = ({ children, ...rest }: Props) => {

@@ -1,32 +1,19 @@
-import React, { ElementType } from 'react'
+import React from 'react'
 
-import { AnchorProps } from './types'
+import { LinkComponent, LinkComponentProps } from './types'
 import { getProtocol } from './utils'
 
-export interface LinkComponentProps extends AnchorProps {
-	href: string
-}
+type Props = {
+	linkComponent?: LinkComponent
+} & LinkComponentProps
 
-export type LinkComponent = ElementType<LinkComponentProps>
-
-interface Props extends LinkComponentProps {
-	LinkComponent?: LinkComponent
-}
-
-export const Link = ({ href, LinkComponent, ...rest }: Props) => {
+export const Link = ({ href, linkComponent, ...rest }: Props): JSX.Element => {
+	const Component = linkComponent ?? 'a'
 	const protocol = getProtocol(href)
 
-	if (LinkComponent) {
-		return (
-			<LinkComponent {...rest} href={`${protocol}${href}`}>
-				{href}
-			</LinkComponent>
-		)
-	}
-
 	return (
-		<a {...rest} href={`${protocol}${href}`}>
+		<Component {...rest} href={`${protocol}${href}`}>
 			{href}
-		</a>
+		</Component>
 	)
 }
